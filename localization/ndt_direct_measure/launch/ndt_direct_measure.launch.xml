@@ -1,0 +1,16 @@
+<launch>
+  <arg name="map_path" default=""/>
+  <arg name="source_bag" default=""/>
+  <arg name="target_unix_sec" default="0.0"/>
+  <arg name="initial_pose_yaml" default=""/>
+  <arg name="pointcloud_topic" default="/sensing/lidar/concatenated/pointcloud"/>
+  <arg name="output_json" default=""/>
+  <arg name="output_csv" default=""/>
+  <arg name="n_runs" default="1"/>
+  <arg name="map_load_mode" default="metadata_radius"/>
+  <arg name="map_radius_m" default="150.0"/>
+  <arg name="metadata_yaml" default=""/>
+  <arg name="ndt_param_yaml" default="$(find-pkg-share autoware_ndt_scan_matcher)/config/ndt_scan_matcher.param.yaml"/>
+
+  <executable cmd="$(find-pkg-prefix ndt_direct_measure)/lib/ndt_direct_measure/ndt_direct_measure_node --map-path $(var map_path) --source-bag $(var source_bag) --target-unix-sec $(var target_unix_sec) --initial-pose-yaml $(var initial_pose_yaml) --pointcloud-topic $(var pointcloud_topic) --output-json $(var output_json) --output-csv $(var output_csv) --n-runs $(var n_runs) --map-load-mode $(var map_load_mode) --map-radius-m $(var map_radius_m) --metadata-yaml $(var metadata_yaml) --ndt-param-yaml $(var ndt_param_yaml)" output="screen"/>
+</launch>

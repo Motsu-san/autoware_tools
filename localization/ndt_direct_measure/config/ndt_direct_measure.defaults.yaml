@@ -1,0 +1,2 @@
+# Reference only: ndt_direct_measure loads NDT params from autoware_ndt_scan_matcher share by default.
+# Override with --ndt-param-yaml on the CLI.
