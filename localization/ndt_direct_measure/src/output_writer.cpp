@@ -13,6 +13,15 @@ namespace ndt_direct_measure
 namespace
 {
 
+// UNIX epoch [s] with nanosecond resolution (fixed decimal, not significant digits).
+// std::setprecision(N) alone uses significant figures and rounds ~1.7e9 timestamps to whole seconds.
+std::string format_unix_sec(double t)
+{
+  std::ostringstream oss;
+  oss << std::fixed << std::setprecision(9) << t;
+  return oss.str();
+}
+
 std::string pose_to_json(const geometry_msgs::msg::Pose & p)
 {
   std::ostringstream oss;
@@ -43,8 +52,9 @@ void write_csv(
 
   for (size_t i = 0; i < runs.size(); ++i) {
     const auto & r = runs[i];
-    ofs << i << "," << std::fixed << std::setprecision(9) << stamp_sec << ","
-        << cloud_sel.header_stamp_sec << "," << cloud_sel.dt_from_target_sec << ","
+    ofs << i << "," << format_unix_sec(stamp_sec) << ","
+        << format_unix_sec(cloud_sel.header_stamp_sec) << ","
+        << format_unix_sec(cloud_sel.dt_from_target_sec) << ","
         << cloud_sel.frame_id << "," << (r.has_converged ? 1 : 0) << ","
         << (r.passes_score_threshold ? 1 : 0) << "," << r.iteration << "," << r.score_nvtl << ","
         << r.score_tp << "," << r.score_threshold << "," << r.score_type << ","
@@ -62,18 +72,17 @@ void write_json(
   const MapLoadInfo & map_info, const geometry_msgs::msg::Pose & initial_pose)
 {
   std::ostringstream oss;
-  oss << std::setprecision(10);
   oss << "{\n";
   oss << "  \"status\": \"ok\",\n";
   oss << "  \"method\": \"ndt_direct_align_single_scan\",\n";
-  oss << "  \"target_unix_sec\": " << target_unix_sec << ",\n";
+  oss << "  \"target_unix_sec\": " << format_unix_sec(target_unix_sec) << ",\n";
   oss << "  \"source_rosbag\": \"" << source_bag << "\",\n";
   oss << "  \"initial_pose_yaml\": \"" << initial_pose_yaml << "\",\n";
   oss << "  \"pointcloud_topic\": \"" << pointcloud_topic << "\",\n";
   oss << "  \"pointcloud_header\": {\n";
-  oss << "    \"stamp_sec\": " << cloud_sel.header_stamp_sec << ",\n";
+  oss << "    \"stamp_sec\": " << format_unix_sec(cloud_sel.header_stamp_sec) << ",\n";
   oss << "    \"frame_id\": \"" << cloud_sel.frame_id << "\",\n";
-  oss << "    \"dt_from_target_sec\": " << cloud_sel.dt_from_target_sec << "\n";
+  oss << "    \"dt_from_target_sec\": " << format_unix_sec(cloud_sel.dt_from_target_sec) << "\n";
   oss << "  },\n";
   oss << "  \"initial_pose\": " << pose_to_json(initial_pose) << ",\n";
   oss << "  \"map_load\": {\n";
