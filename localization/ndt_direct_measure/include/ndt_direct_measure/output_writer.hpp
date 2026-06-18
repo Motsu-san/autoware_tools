@@ -13,14 +13,14 @@ namespace ndt_direct_measure
 {
 
 void write_csv(
-  const std::string & path, const std::vector<ScanMatcherResult> & runs, double stamp_sec,
-  const PointCloudSelection & cloud_sel, const MapLoadInfo & map_info);
+  const std::string & path, const std::vector<ScanGroupResult> & scan_groups,
+  double stamp_sec, const MapLoadInfo & map_info);
 
 void write_json(
-  const std::string & path, const std::vector<ScanMatcherResult> & runs, double target_unix_sec,
-  const std::string & source_bag, const std::string & initial_pose_yaml,
-  const std::string & pointcloud_topic, const PointCloudSelection & cloud_sel,
-  const MapLoadInfo & map_info, const geometry_msgs::msg::Pose & initial_pose);
+  const std::string & path, const std::vector<ScanGroupResult> & scan_groups,
+  double target_unix_sec, const std::string & source_bag, const std::string & initial_pose_yaml,
+  const std::string & pointcloud_topic, int neighbor_scans, const MapLoadInfo & map_info,
+  const geometry_msgs::msg::Pose & initial_pose);
 
 }  // namespace ndt_direct_measure
 

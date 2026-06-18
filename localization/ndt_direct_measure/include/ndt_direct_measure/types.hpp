@@ -47,6 +47,25 @@ struct PointCloudSelection
   double header_stamp_sec{0.0};
   double dt_from_target_sec{0.0};
   std::string frame_id;
+  /** 最近傍スキャンからの時系列オフセット（0=最近傍, -1=1つ前, +1=1つ後） */
+  int offset_from_nearest{0};
+};
+
+struct ScanInitialPoseInfo
+{
+  geometry_msgs::msg::Pose pose{};
+  std::string source{"ndt_start_pose_yaml"};
+  bool extrapolated{false};
+  int ref_offset_a{0};
+  int ref_offset_b{0};
+  double extrapolation_alpha{0.0};
+};
+
+struct ScanGroupResult
+{
+  PointCloudSelection cloud_sel;
+  std::vector<ScanMatcherResult> runs;
+  ScanInitialPoseInfo initial_pose_info{};
 };
 
 }  // namespace ndt_direct_measure

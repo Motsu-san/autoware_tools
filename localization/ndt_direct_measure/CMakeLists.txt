@@ -34,6 +34,7 @@ add_executable(ndt_direct_measure_node
   src/ndt_direct_measure_node.cpp
   src/map_loader.cpp
   src/bag_reader.cpp
+  src/pose_extrapolation.cpp
   src/pose_yaml.cpp
   src/output_writer.cpp
 )
